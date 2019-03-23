@@ -2,32 +2,38 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
+.pages {}
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+.wrapper-window {}
 
-.App-link {
-  color: #61dafb;
-}
+.content {}
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+.wrapper-content {}
+
+.content__chat {}
+
+.content-chat__wrapper {}
+
+.chatbubble__area {}
+
+.chatbubble-area__wrapper {}
+
+.chat__bubble {}
+
+.chat-bubble__wrapper {}
+
+.chataction__area {}
+
+.chat-action__wrapper {}
+
+.chataction__left {}
+
+.chataction-left__wrapper {}
+
+.chataction__textarea {}
+
+.chataction-textarea__wrapper {}
+
+.chataction__right {}
+
+.chataction-right__wrapper {}
