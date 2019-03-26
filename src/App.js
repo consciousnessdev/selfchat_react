@@ -6,9 +6,9 @@ import "./App.css";
 const Header = ({title}) => {
   return (
     <header>
-      <div className="wrapper-header">
+      <WrapperHeader>
         <HeaderApps>{title}</HeaderApps>
-      </div>
+      </WrapperHeader>
     </header>
   );
 };
@@ -42,7 +42,7 @@ const Pages = styled.div``;
 const WindowWrapper = styled.div`
   margin: 0 auto;
   width: 60%;
-  background-color: lightgreen;
+  background-color: #efefef;
   border-radius: 5px;
 `;
 
@@ -50,6 +50,11 @@ const Content = styled.div``;
 
 const ContentWrapper = styled.div`
   margin: 10px;
+`;
+
+const WrapperHeader = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 const ContentChat = styled.div`
@@ -63,6 +68,7 @@ const ContentChat = styled.div`
 const ContentChatWrapper = styled.div`
   height: 400px;
   padding: 10px;
+  overflow: hidden;
 `;
 
 const ChatBubbleArea = styled.div`
@@ -73,20 +79,35 @@ const ChatBubbleArea = styled.div`
 `;
 
 const ChatBubbleAreaWrapper = styled.div`
-  padding: 20px;
+  height: 100%;
+  display: grid;
+  align-content: end;
+  overflow-x: hidden;
 `;
 
 const ChatBubble = styled.div``;
 
 const BubbleRight = styled.div`
+  grid-column: 2;
+  align-self: center;
   background-color: red;
 `;
 
 const BubbleLeft = styled.div`
+  grid-column: 1;
+  align-self: center;
   background-color: blue;
 `;
 
-const BubbleWrapper = styled.div``;
+const BubbleWrapper = styled.div`
+  width: 100%;
+  position: relative;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: minmax(50px, auto);
+  padding: 5px;
+`;
 
 const ChatActionArea = styled.div`
   height: 30%;
@@ -150,8 +171,9 @@ const ButtonRight = styled.button`
 `;
 
 const HeaderApps = styled.h2`
+  margin: 0;
   text-align: center;
-  color: red;
+  color: #6a6d7e;
 `;
 
 class App extends Component {
@@ -167,16 +189,36 @@ class App extends Component {
                   <ContentChatWrapper>
                     <ChatBubbleArea>
                       <ChatBubbleAreaWrapper>
-                        <div className="chat__bubble bubble-right">
-                          <div className="chat-bubble__wrapper">
+                        <ChatBubble>
+                          <BubbleWrapper>
                             <BubbleChat msg="ini chat kanan" pos="right" />
-                          </div>
-                        </div>
-                        <div className="chat__bubble bubble-left">
-                          <div className="chat-bubble__wrapper">
+                          </BubbleWrapper>
+                        </ChatBubble>
+                        <ChatBubble>
+                          <BubbleWrapper>
                             <BubbleChat msg="ini chat Kiri" pos="left" />
-                          </div>
-                        </div>
+                          </BubbleWrapper>
+                        </ChatBubble>
+                        <ChatBubble>
+                          <BubbleWrapper>
+                            <BubbleChat msg="ini chat kiri" pos="left" />
+                          </BubbleWrapper>
+                        </ChatBubble>
+                        <ChatBubble>
+                          <BubbleWrapper>
+                            <BubbleChat msg="ini chat kiri" pos="left" />
+                          </BubbleWrapper>
+                        </ChatBubble>
+                        <ChatBubble>
+                          <BubbleWrapper>
+                            <BubbleChat msg="ini chat kiri" pos="left" />
+                          </BubbleWrapper>
+                        </ChatBubble>
+                        <ChatBubble>
+                          <BubbleWrapper>
+                            <BubbleChat msg="ini chat kiri" pos="left" />
+                          </BubbleWrapper>
+                        </ChatBubble>
                       </ChatBubbleAreaWrapper>
                     </ChatBubbleArea>
                     <ChatActionArea>
