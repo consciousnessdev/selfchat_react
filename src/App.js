@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import styled from "styled-components";
 import "./App.css";
+// import data from "./sample_chat";
 
 /* Stateless Component */
 const Header = ({title}) => {
@@ -13,22 +14,56 @@ const Header = ({title}) => {
   );
 };
 
+const ChatMessage = ({msg, pos}) => {
+  let msgComponent = (
+    <ChatBubble>
+      <BubbleWrapper>
+        <BubbleChat msg={msg} pos={pos} />
+      </BubbleWrapper>
+    </ChatBubble>
+  );
+  return msgComponent;
+};
+
 const BubbleChat = ({msg, pos}) => {
   let BubblePos =
-    pos === "left" ? (
-      <BubbleLeft>{msg}</BubbleLeft>
+    pos === "l" ? (
+      <BubbleLeft>
+        <ChatMsgWrapper>{msg}</ChatMsgWrapper>
+      </BubbleLeft>
     ) : (
-      <BubbleRight>{msg}</BubbleRight>
+      <BubbleRight>
+        <ChatMsgWrapper>{msg}</ChatMsgWrapper>
+      </BubbleRight>
     );
   return BubblePos;
+};
+
+const ButtonChat = ({pos, label, act}) => {
+  let ButtonGen =
+    pos === "left" ? (
+      <ButtonChatLeft pos={pos} onClick={act}>
+        <ButtonLeft>{label}</ButtonLeft>
+      </ButtonChatLeft>
+    ) : (
+      <ButtonChatRight pos={pos} onClick={act}>
+        <ButtonRight>{label}</ButtonRight>
+      </ButtonChatRight>
+    );
+  return ButtonGen;
 };
 
 const Footer = () => {
   return (
     <footer>
-      <div className="wrapper-footer">
-        <small>Apps By ConsciousnessDev</small>
-      </div>
+      <FooterWrapper>
+        <small>
+          Apps By{" "}
+          <LinkFooter href="https://consciousnessdev.github.io">
+            Consciousness Dev
+          </LinkFooter>
+        </small>
+      </FooterWrapper>
     </footer>
   );
 };
@@ -72,7 +107,7 @@ const ContentChatWrapper = styled.div`
 `;
 
 const ChatBubbleArea = styled.div`
-  height: 70%;
+  height: 75%;
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #efefef;
@@ -81,22 +116,28 @@ const ChatBubbleArea = styled.div`
 const ChatBubbleAreaWrapper = styled.div`
   height: 100%;
   display: grid;
-  align-content: end;
-  overflow-x: hidden;
+  align-content: start;
+  overflow: auto;
 `;
 
-const ChatBubble = styled.div``;
+const ChatBubble = styled.div`
+  margin: 5px 0;
+`;
 
 const BubbleRight = styled.div`
   grid-column: 2;
-  align-self: center;
-  background-color: red;
+  background-color: lightsalmon;
+  border-radius: 5px;
+  width: 90%;
+  margin: 0 auto;
 `;
 
 const BubbleLeft = styled.div`
   grid-column: 1;
-  align-self: center;
-  background-color: blue;
+  background-color: lightgreen;
+  border-radius: 5px;
+  width: 90%;
+  margin: 0 auto;
 `;
 
 const BubbleWrapper = styled.div`
@@ -106,11 +147,18 @@ const BubbleWrapper = styled.div`
   grid-gap: 20px;
   grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: minmax(50px, auto);
-  padding: 5px;
+`;
+
+const ChatMsgWrapper = styled.div`
+  height: 100%;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const ChatActionArea = styled.div`
-  height: 30%;
+  height: 25%;
   width: auto;
   display: flex;
   align-items: center;
@@ -121,7 +169,7 @@ const ChatActionWrapper = styled.div`
   justify-content: space-around;
   align-items: center;
   width: 100%;
-  height: 100px;
+  height: 60px;
 `;
 
 const ButtonChatLeft = styled.div`
@@ -150,12 +198,6 @@ const TextAreaWrapper = styled.div`
   height: 100%;
 `;
 
-const TextAreaInput = styled.textarea`
-  height: 100%;
-  width: 95%;
-  resize: none;
-`;
-
 const ButtonChatRight = styled.div`
   width: 20%;
   height: 100%;
@@ -176,7 +218,86 @@ const HeaderApps = styled.h2`
   color: #6a6d7e;
 `;
 
+const FooterWrapper = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
+`;
+
+const LinkFooter = styled.a`
+  text-decoration: none;
+  color: #0097e2;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
 class App extends Component {
+  constructor() {
+    super();
+    this.sendMsgChat = this.sendMsgChat.bind(this);
+  }
+  state = {
+    chatMsg: {},
+    position: ""
+  };
+
+  sendMsg(event) {
+    event.preventDefault();
+    let dateGet = new Date();
+    const date = {
+      year: dateGet.getFullYear(),
+      month: dateGet.getMonth(),
+      day: dateGet.getDay(),
+      get getFullDate() {
+        return `${this.day}-${this.month}-${this.year}`;
+      }
+    };
+
+    const time = {
+      hour: dateGet.getHours(),
+      minute: dateGet.getMinutes(),
+      second: dateGet.getSeconds(),
+      get getFullTime() {
+        return `${this.hour}:${this.minute}:${this.second}`;
+      }
+    };
+
+    const msgText = {
+      date: date.getFullDate,
+      time: time.getFullTime,
+      msg: this.chatMsg.value,
+      pos: this.state.position
+    };
+
+    this.sendMsgChat(msgText);
+    this.chatArea.reset();
+  }
+
+  componentDidMount() {
+    console.log("Apps dimulai");
+  }
+
+  // sendLeft = (side, msg) => {};
+  sendLeft = () => {
+    this.setState({position: "l"});
+  };
+
+  sendRight = () => {
+    this.setState({position: "r"});
+  };
+
+  sendMsgChat = msg => {
+    const messages = {...this.state.chatMsg};
+    const timestamp = Date.now();
+    messages[`chat-${timestamp}`] = msg;
+    this.setState({chatMsg: messages});
+  };
+
+  updateMsgChat = (key, updateMsgChat) => {
+    const messages = {...this.state.chatMsg};
+    messages[key] = updateMsgChat;
+    this.setState({chatMsg: messages});
+  };
+
   render() {
     return (
       <div className="App">
@@ -189,52 +310,53 @@ class App extends Component {
                   <ContentChatWrapper>
                     <ChatBubbleArea>
                       <ChatBubbleAreaWrapper>
-                        <ChatBubble>
-                          <BubbleWrapper>
-                            <BubbleChat msg="ini chat kanan" pos="right" />
-                          </BubbleWrapper>
-                        </ChatBubble>
-                        <ChatBubble>
-                          <BubbleWrapper>
-                            <BubbleChat msg="ini chat Kiri" pos="left" />
-                          </BubbleWrapper>
-                        </ChatBubble>
-                        <ChatBubble>
-                          <BubbleWrapper>
-                            <BubbleChat msg="ini chat kiri" pos="left" />
-                          </BubbleWrapper>
-                        </ChatBubble>
-                        <ChatBubble>
-                          <BubbleWrapper>
-                            <BubbleChat msg="ini chat kiri" pos="left" />
-                          </BubbleWrapper>
-                        </ChatBubble>
-                        <ChatBubble>
-                          <BubbleWrapper>
-                            <BubbleChat msg="ini chat kiri" pos="left" />
-                          </BubbleWrapper>
-                        </ChatBubble>
-                        <ChatBubble>
-                          <BubbleWrapper>
-                            <BubbleChat msg="ini chat kiri" pos="left" />
-                          </BubbleWrapper>
-                        </ChatBubble>
+                        {Object.keys(this.state.chatMsg).map(key => (
+                          <ChatMessage
+                            key={key}
+                            msg={this.state.chatMsg[key].msg}
+                            pos={this.state.chatMsg[key].pos}
+                          />
+                        ))}
                       </ChatBubbleAreaWrapper>
                     </ChatBubbleArea>
                     <ChatActionArea>
-                      <ChatActionWrapper>
-                        <ButtonChatLeft>
-                          <ButtonLeft>{"Send Left"}</ButtonLeft>
-                        </ButtonChatLeft>
-                        <TextareaChat>
-                          <TextAreaWrapper>
-                            <TextAreaInput />
-                          </TextAreaWrapper>
-                        </TextareaChat>
-                        <ButtonChatRight>
-                          <ButtonRight>{"Send Right"}</ButtonRight>
-                        </ButtonChatRight>
-                      </ChatActionWrapper>
+                      <form
+                        style={{width: "100%"}}
+                        ref={input => {
+                          this.chatArea = input;
+                        }}
+                        onSubmit={e => {
+                          this.sendMsg(e);
+                        }}
+                      >
+                        <ChatActionWrapper>
+                          <ButtonChat
+                            pos={"left"}
+                            label={"Send Left"}
+                            act={this.sendLeft}
+                          />
+                          <TextareaChat>
+                            <TextAreaWrapper>
+                              <textarea
+                                style={{
+                                  height: "100%",
+                                  width: "95%",
+                                  resize: "none"
+                                }}
+                                ref={input => (this.chatMsg = input)}
+                                type="text"
+                                placeholder="Fill message"
+                                required="required"
+                              />
+                            </TextAreaWrapper>
+                          </TextareaChat>
+                          <ButtonChat
+                            pos={"right"}
+                            label={"Send Right"}
+                            act={this.sendRight}
+                          />
+                        </ChatActionWrapper>
+                      </form>
                     </ChatActionArea>
                   </ContentChatWrapper>
                 </ContentChat>
