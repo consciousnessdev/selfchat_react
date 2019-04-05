@@ -2,6 +2,7 @@
   "name": "selfchat_react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://consciousnessdev.github.io/selfchat-v01/",
   "dependencies": {
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
