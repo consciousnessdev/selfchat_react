@@ -76,9 +76,20 @@ const Pages = styled.div``;
 
 const WindowWrapper = styled.div`
   margin: 0 auto;
-  width: 60%;
   background-color: #efefef;
   border-radius: 5px;
+  @media only screen and (min-width: 400px) and (max-width: 650px) {
+    width: 100%;
+  }
+  @media only screen and (min-width: 650px) and (max-width: 760px) {
+    width: 80%;
+  }
+  @media only screen and (min-width: 760px) and (max-width: 999px) {
+    width: 80%;
+  }
+  @media only screen and (min-width: 999px) and (max-width: 1280px) {
+    width: 60%;
+  }
 `;
 
 const Content = styled.div``;
