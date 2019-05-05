@@ -248,7 +248,8 @@ class App extends Component {
   }
   state = {
     chatMsg: {},
-    position: ""
+    position: "",
+    chatAreaHeight: 0
   };
 
   sendMsg(event) {
@@ -283,8 +284,20 @@ class App extends Component {
     this.chatArea.reset();
   }
 
+  scrollToBottom = () => {
+    if (this.chatBubble.scrollHeight > this.state.chatAreaHeight) {
+      this.chatBubble.scrollTop = this.chatBubble.scrollHeight;
+      this.setState({chatAreaHeight: this.chatBubble.scrollHeight});
+    }
+  };
+
   componentDidMount() {
+    this.setState({chatAreaHeight: this.chatBubble.scrollHeight});
     console.log("Apps dimulai");
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
   }
 
   // sendLeft = (side, msg) => {};
@@ -320,7 +333,11 @@ class App extends Component {
                 <ContentChat>
                   <ContentChatWrapper>
                     <ChatBubbleArea>
-                      <ChatBubbleAreaWrapper>
+                      <ChatBubbleAreaWrapper
+                        ref={el => {
+                          this.chatBubble = el;
+                        }}
+                      >
                         {Object.keys(this.state.chatMsg).map(key => (
                           <ChatMessage
                             key={key}
